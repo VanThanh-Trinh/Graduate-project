@@ -121,8 +121,6 @@ void GLCM::calculateMatrix(Mat & img, int delta_row, int delta_col)
 			newi = i + delta_row;
 			newj = j + delta_col;
 			if (newi < img.rows && newi >= 0 && newj < img.cols && newj >= 0) {
-				//imatrix = (int)((int)(img.data + img.step.p[0] * i)[j] / coefficient);
-				//jmatrix = (int)((int)(img.data + img.step.p[0] * newi)[newj] / coefficient);
 				imatrix = (int) img.at<uchar>(i, j) / coefficient;
 				jmatrix = (int) img.at<uchar>(newi, newj) / coefficient;
 				matrix[imatrix][jmatrix] += 1.0;
@@ -150,7 +148,7 @@ void GLCM::calculateFeatures()
 			features[0] += pow((i - j), 2)*matrix[i][j];
 		}
 	}
-	features[0] /= pow(gLevel - 1, 2);
+	//features[0] /= pow(gLevel - 1, 2);
 	// correlation
 	features[1] = 0;
 	double* mu_u = new double[gLevel + 1];
@@ -202,7 +200,7 @@ void GLCM::calculateFeatures()
 				features[1] += matrix[i][j] * (i - mu_u[gLevel])*(j - mu_v[gLevel]) / sqrt(si_u[gLevel] * si_v[gLevel]);
 		}
 	}
-	features[1] = (features[1] + 1) / 2;
+	//features[1] = (features[1] + 1) / 2;
 	// energy
 	features[2] = 0;
 	for (int i = 0; i < gLevel; i++) {
@@ -234,11 +232,6 @@ void GLCM::calculateFeatures()
 		}
 	}
 
-	// Print si, mu
-	/*for (int i = 0; i < gLevel + 1; i++) {
-		std::cout << i << ": " << si_u[i] << "; " << si_v[i] << "; " 
-			<< mu_u[i] << "; " << mu_v[i] << "; \n";
-	}*/
 	delete mu_u, mu_v, si_u, si_v;
 }
 
@@ -255,6 +248,7 @@ void GLCM::printMatrix()
 		}
 		std::cout << std::endl;
 	}
+	std::cout << sumValue << std::endl;
 }
 
 double * GLCM::getFeatures_Haralick()
