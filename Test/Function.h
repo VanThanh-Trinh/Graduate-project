@@ -27,11 +27,11 @@ public:
 		votingGlobal.clear();
 	}
 
-	void loadData(string path); 
+	void loadData(string path, vector<double> noise, double sko);
 	void printData();
 	void calculateS();
 	void calculateSKO();
-	void membershipFunction(vector<vector<double>> noise, double sko);
+	void membershipFunction();
 	int predict();
 private:
 	vector<vector<double>> matrixA;
@@ -53,5 +53,6 @@ private:
 	const int NP = 24;		// количество параметров Харалика
 	int k;					// номер заболевания на входе
 	int nd;					// количество болезней, имеющихсь в базе данных
-	int method = 2;
+	int method = 2;			// 1 or dif
+	bool testing = false;   // использовать шум ли
 };

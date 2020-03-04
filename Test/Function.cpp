@@ -17,7 +17,7 @@ Diagnostic::~Diagnostic()
 {
 }
 
-void Diagnostic::loadData(string path)
+void Diagnostic::loadData(string path, vector<double> noise, double sko)
 {
 	matrixA.clear();
 	vectorB.clear();
@@ -33,8 +33,8 @@ void Diagnostic::loadData(string path)
 			getline(input, data, ';');
 			rws.push_back(atof(data.c_str()));
 		}
-		for (int i = 0; i < nd; i++) {
-			if (i != (nd - 1))
+		for (int i = 0; i <= nd; i++) {
+			if (i != nd)
 				getline(input, data, ';');
 			else
 				getline(input, data);
@@ -44,6 +44,10 @@ void Diagnostic::loadData(string path)
 		matrixA.push_back(rws);
 	}
 	input.close();
+	if (testing == true) {
+		for (int i = 0; i < NP; i++)
+			vectorB[i] = matrixA[i][k-1] + sko * noise[i];
+	}
 }
 
 void Diagnostic::printData()
@@ -139,7 +143,7 @@ void Diagnostic::calculateSKO()
 	}
 }
 
-void Diagnostic::membershipFunction(vector<vector<double>> noise, double sko)
+void Diagnostic::membershipFunction()
 {
 	mf = vector<double>(nd, 0);
 	for (int i = 0; i < nd; i++) {
@@ -152,7 +156,7 @@ void Diagnostic::membershipFunction(vector<vector<double>> noise, double sko)
 	for (int i = 0; i < nd; i++) {
 		vector<double> p;
 		for (int j = 0; j < NP; j++) {
-			p.push_back(1.0 - abs(matrixA[j][i] - vectorB[j] + sko * noise[j][i]));
+			p.push_back(1.0 - abs(matrixA[j][i] - vectorB[j]));
 		}
 		mfComponent.push_back(p);
 	}
@@ -179,7 +183,7 @@ void Diagnostic::membershipFunction(vector<vector<double>> noise, double sko)
 			if (votingComponentBefore[j][i] > maxV)
 				maxV = votingComponentBefore[j][i];
 		for (int j = 0; j < nd; j++) {
-			if (votingComponentBefore[j][i] == maxV && maxV != 0)
+			if (votingComponentBefore[j][i] == maxV && maxV > 1)
 				p[j] = 1;
 		}
 		votingComponentAfter.push_back(p);
@@ -203,7 +207,7 @@ int Diagnostic::predict()
 		}
 		cout << "						********\n";
 		cout << "Input: " << k << " | Predict: ";
-		if (mfMax >= BT) {
+		if (mfMax >= 0.99) {
 			cout << id << endl;
 			return id;
 		}
@@ -216,7 +220,7 @@ int Diagnostic::predict()
 		int maxV = *max_element(votingGlobal.begin(), votingGlobal.end()), id = 0;
 		cout << "						********\n";
 		cout << "Input: " << k << " | Predict: ";
-		if (maxV == 0) {
+		if (maxV < 4) {
 			cout << "unknown \n";
 			return 0;
 		}
