@@ -21,14 +21,18 @@ public:
 		skoB = 0;
 		mf.clear();
 		mfComponent.clear();
+		votingComponentAfter.clear();
+		votingComponentBefore.clear();
+		votingParameter.clear();
+		votingGlobal.clear();
 	}
 
 	void loadData(string path); 
 	void printData();
 	void calculateS();
 	void calculateSKO();
-	void membershipFunction();
-	void predict();
+	void membershipFunction(vector<vector<double>> noise, double sko);
+	int predict();
 private:
 	vector<vector<double>> matrixA;
 	vector<double> vectorB;
@@ -46,7 +50,6 @@ private:
 	vector<int> votingGlobal;
 
 	const double BT = 0.95; // коэффициент для порога бинаризации
-	const double S = 0.06;  // СКО случайных отклонений от эталонных значений
 	const int NP = 24;		// количество параметров Харалика
 	int k;					// номер заболевания на входе
 	int nd;					// количество болезней, имеющихсь в базе данных

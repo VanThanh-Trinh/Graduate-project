@@ -139,7 +139,7 @@ void Diagnostic::calculateSKO()
 	}
 }
 
-void Diagnostic::membershipFunction()
+void Diagnostic::membershipFunction(vector<vector<double>> noise, double sko)
 {
 	mf = vector<double>(nd, 0);
 	for (int i = 0; i < nd; i++) {
@@ -152,7 +152,7 @@ void Diagnostic::membershipFunction()
 	for (int i = 0; i < nd; i++) {
 		vector<double> p;
 		for (int j = 0; j < NP; j++) {
-			p.push_back(1.0 - abs(matrixA[j][i] - vectorB[j]));
+			p.push_back(1.0 - abs(matrixA[j][i] - vectorB[j] + sko * noise[j][i]));
 		}
 		mfComponent.push_back(p);
 	}
@@ -191,7 +191,7 @@ void Diagnostic::membershipFunction()
 	}
 }
 
-void Diagnostic::predict()
+int Diagnostic::predict()
 {
 	if (method == 1) {
 		double id = 0, mfMax = 0;
@@ -203,10 +203,14 @@ void Diagnostic::predict()
 		}
 		cout << "						********\n";
 		cout << "Input: " << k << " | Predict: ";
-		if (mfMax >= BT)
+		if (mfMax >= BT) {
 			cout << id << endl;
-		else
+			return id;
+		}
+		else {
 			cout << "unknown \n";
+			return 0;
+		}
 	}
 	else {
 		int maxV = *max_element(votingGlobal.begin(), votingGlobal.end()), id = 0;
@@ -214,12 +218,15 @@ void Diagnostic::predict()
 		cout << "Input: " << k << " | Predict: ";
 		if (maxV == 0) {
 			cout << "unknown \n";
+			return 0;
 		}
 		else {
 			for (int i = 0; i < nd; i++)
 				if (votingGlobal[i] == maxV)
 					id = i + 1;
 			cout << id << endl;
+			return id;
 		}
 	}
+	return 0;
 }
