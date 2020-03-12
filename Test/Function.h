@@ -53,6 +53,6 @@ private:
 	const int NP = 24;		// количество параметров Харалика
 	int k;					// номер заболевания на входе
 	int nd;					// количество болезней, имеющихсь в базе данных
-	int method = 2;			// 1 or dif
-	bool testing = false;   // использовать шум ли
+	int method = 1;			// 1 or dif
+	bool testing = true;   // использовать шум ли
 };
