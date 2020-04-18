@@ -54,20 +54,23 @@ void Diagnostic::printData()
 {
 	cout << "						Data loaded: \n";
 	for (int i = 0; i < NP; i++) {
+		int component = i / 4;
+		int feature_id = i % 4;
+		cout << setw(4) << nameComponent[component] << setw(15) << nameFeatures[feature_id];
 		for (int j = 0; j < nd; j++)
-			cout << matrixA[i][j] << " ";
+			cout << setw(15) << matrixA[i][j] << " ";
 		cout << " | " << vectorB[i] << endl;
 	}
 	cout << "						********\n";
-	cout << "sA: \n";
+	cout << "sA: ";
 	for (int i = 0; i < nd; i++)
-		cout << sA[i] << " ";
-	cout << "\nsB: " << sB << endl;
+		cout << setw(10) << sA[i] << " ";
+	cout << "\nsB: " << setw(10) << sB << endl;
 	cout << "						********\n";
-	cout << "skoA: \n";
+	cout << "skoA^2: ";
 	for (int i = 0; i < nd; i++)
-		cout << skoA[i] << " ";
-	cout << "\nskoB: " << skoB << endl;
+		cout << setw(10) << skoA[i] << " ";
+	cout << "\nskoB^2: " << setw(10) << skoB << endl;
 	cout << "						********\n";
 	cout << "Membership Function: \n";
 	if (method == 1) {
@@ -77,13 +80,19 @@ void Diagnostic::printData()
 	}
 	else {
 		for (int j = 0; j < NP; j++) {
+			int component = j / 4;
+			int feature_id = j % 4;
+			cout << setw(4) << nameComponent[component] << setw(15) << nameFeatures[feature_id];
 			for (int i = 0; i < nd; i++)
-				cout << mfComponent[i][j] << " ";
+				cout << setw(10) << mfComponent[i][j] << " ";
 			cout << endl;
 		}
 		cout << "						********\n";
 		cout << "Voting Parameter: \n";
 		for (int j = 0; j < NP; j++) {
+			int component = j / 4;
+			int feature_id = j % 4;
+			cout << setw(4) << nameComponent[component] << setw(15) << nameFeatures[feature_id];
 			for (int i = 0; i < nd; i++)
 				cout << votingParameter[i][j] << " ";
 			cout << endl;
@@ -91,6 +100,7 @@ void Diagnostic::printData()
 		cout << "						********\n";
 		cout << "Voting Component Before: \n";
 		for (int j = 0; j < 6; j++) {
+			cout << setw(4) << nameComponent[j];
 			for (int i = 0; i < nd; i++)
 				cout << votingComponentBefore[i][j] << " ";
 			cout << endl;
@@ -98,6 +108,7 @@ void Diagnostic::printData()
 		cout << "						********\n";
 		cout << "Voting Component After: \n";
 		for (int i = 0; i < 6; i++) {
+			cout << setw(4) << nameComponent[i];
 			for (int j = 0; j < nd; j++)
 				cout << votingComponentAfter[i][j] << " ";
 			cout << endl;

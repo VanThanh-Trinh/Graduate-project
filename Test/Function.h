@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
@@ -53,6 +54,8 @@ private:
 	const int NP = 24;		// количество параметров Харалика
 	int k;					// номер заболевания на входе
 	int nd;					// количество болезней, имеющихсь в базе данных
-	int method = 1;			// 1 or dif
-	bool testing = true;   // использовать шум ли
+	int method = 2;			// 1 or dif
+	bool testing = false;   // использовать шум ли
+	char nameFeatures[4][20] = { "Contrast: ", "Correlation: ", "Energy: ", "Homogeneity: " };
+	char nameComponent[6][5] = { "R ", "G ", "B ", "RG ", "RB ", "GB " };
 };

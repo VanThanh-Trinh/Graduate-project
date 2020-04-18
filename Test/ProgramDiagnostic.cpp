@@ -6,7 +6,7 @@
 
 int k = 2;				// номер заболевания на входе 9 - unknown
 int kb_in = pow(2, k);  // входной код заболевания (нужен для определения правильности диагностики)
-int m = 1000;			// количество статистических испытаний. 
+int m = 1;			// количество статистических испытаний. 
 double S = 0.05;		// СКО случайных отклонений от эталонных значений method 1 SKO = 0.05, method 2 SKO = 0.04
 
 int main()
@@ -25,7 +25,7 @@ int main()
 		dig->calculateS();
 		dig->calculateSKO();
 		dig->membershipFunction();
-		//dig->printData();
+		dig->printData();
 		int k_out = dig->predict();
 		if (k_out == k)
 			nCorrect++;
